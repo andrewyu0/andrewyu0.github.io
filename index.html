@@ -16,6 +16,70 @@
         </style>
     </head>
     <body>
+        <canvas id="myCanvas" style="border:0px solid #d3d3d3;"></canvas>
+
+        <script>
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        
+        // Set canvas size to window size
+        // canvas.width = window.innerWidth;
+        canvas.width = 400;
+        canvas.height = 200;
+
+        // Set line width
+        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = 'black'; // was 'gray' before
+
+
+        
+        // Start at the top left (large loss)
+        var lineX = 0;
+        var lineYTrain = 0; // Training loss
+        var lineYVal = 0; // Validation loss
+        
+        // For controlling the decrease rate
+        var decreaseRateTrain = canvas.height / 1000 + Math.random() // Adding initial randomness
+        var decreaseRateVal = canvas.height / 1000 + Math.random(); // Adding initial randomness
+        
+        // Begin the paths
+        ctx.beginPath();
+        ctx.moveTo(lineX, lineYTrain);
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.moveTo(lineX, lineYVal);
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+        
+        // Update the line position every 100ms
+        setInterval(function () {
+            // Training loss
+            ctx.beginPath();
+            ctx.moveTo(lineX, lineYTrain);
+            lineX += canvas.width / 500; // Move right
+            lineYTrain += decreaseRateTrain; // Steeper ascent
+            decreaseRateTrain *= 0.99 + Math.random() * 0.01; // Randomly slow down the rate of increase
+            ctx.lineTo(lineX, lineYTrain);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+        
+            // Validation loss
+            ctx.beginPath();
+            ctx.moveTo(lineX, lineYVal);
+            lineYVal += decreaseRateVal + (Math.random() - 0.5) * 4; // Steeper ascent with randomness
+            // Add a small upward trend to the validation loss after a certain point to simulate overfitting
+            if (lineX > canvas.width / 2) {
+                decreaseRateVal *= 0.98 + Math.random() * 0.01; // Randomly slow down the rate of increase
+            } else {
+                decreaseRateVal *= 0.99 + Math.random() * 0.01; // Randomly slow down the rate of increase
+            }
+            ctx.lineTo(lineX, lineYVal);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+        }, 1);
+        </script>
     <header>
         <h1>Andrew Yu</h1>
     </header>
@@ -74,6 +138,7 @@
         <a href="https://www.linkedin.com/in/andrewchandoyu/">linkedin</a>,
         yu.drew [at] gmail 
     </p>
+    <!-- ethos inspo by karpathy.ai + motherfuckingwebsite.com -->
     <p>Andrew Yu 2023</p>
     
 </body>
