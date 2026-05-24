@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI-Native Systems Experiments — Andrew Yu</title>
+  <meta name="description" content="A compact public backlog of AI-native systems experiments across agent runtimes, repo automation, context engineering, workstation ops, and technical learning loops." />
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --panel: #11151b;
+      --panel2: #151a22;
+      --text: #e8edf2;
+      --muted: #9aa4b2;
+      --line: #26303d;
+      --accent: #7dd3fc;
+      --accent2: #a7f3d0;
+      --warn: #fbbf24;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(125, 211, 252, 0.12), transparent 32rem),
+        radial-gradient(circle at top right, rgba(167, 243, 208, 0.08), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 56px 22px 72px;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 34px;
+      margin-bottom: 34px;
+    }
+
+    .eyebrow {
+      color: var(--accent2);
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: clamp(40px, 7vw, 76px);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      margin: 0 0 20px;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 21px);
+      margin: 0;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      background: rgba(17, 21, 27, 0.7);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 13px;
+    }
+
+    section { margin-top: 38px; }
+
+    h2 {
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      margin: 0 0 14px;
+    }
+
+    .note {
+      color: var(--muted);
+      max-width: 840px;
+      margin: 0 0 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(21, 26, 34, 0.98), rgba(17, 21, 27, 0.98));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      min-height: 178px;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      letter-spacing: -0.01em;
+    }
+
+    .status {
+      display: inline-block;
+      margin-bottom: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent2);
+    }
+
+    .status.proposed { color: var(--warn); }
+
+    .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      margin-top: 12px;
+    }
+
+    .card p {
+      margin: 4px 0 0;
+      color: #d7dde5;
+      font-size: 14.5px;
+    }
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .principle {
+      border: 1px solid var(--line);
+      background: rgba(17, 21, 27, 0.7);
+      border-radius: 16px;
+      padding: 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .principle strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      margin-top: 44px;
+      padding-top: 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 820px) {
+      .grid, .principles { grid-template-columns: 1fr; }
+      .wrap { padding-top: 38px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <header>
+      <div class="eyebrow">Public experiment ledger</div>
+      <h1>AI-Native Systems Experiments</h1>
+      <p class="subtitle">
+        A compact backlog of experiments around agent runtimes, evals, repo automation,
+        context engineering, workstation operations, and human-agent engineering loops.
+      </p>
+      <div class="meta">
+        <span class="pill">Agent infrastructure</span>
+        <span class="pill">Runtime governance</span>
+        <span class="pill">Repo automation</span>
+        <span class="pill">Context systems</span>
+        <span class="pill">Operational tooling</span>
+      </div>
+    </header>
+
+    <section>
+      <h2>Operating frame</h2>
+      <p class="note">
+        These are not predictions. They are small, testable engineering bets.
+        Each experiment should produce an artifact: a repo, a spec, a working demo,
+        a measurement log, or a technical note.
+      </p>
+
+      <div class="principles">
+        <div class="principle">
+          <strong>Instrument first.</strong>
+          Prefer traces, diffs, tests, benchmarks, and reproducible logs over intuition.
+        </div>
+        <div class="principle">
+          <strong>Keep loops reversible.</strong>
+          Agentic workflows need fork, rollback, replay, and promotion semantics.
+        </div>
+        <div class="principle">
+          <strong>Promote only durable work.</strong>
+          Raw ideas enter a backlog; only pressure-tested ideas graduate into specs or repos.
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Active</h2>
+      <div class="grid">
+        <article class="card">
+          <span class="status">Active</span>
+          <h3>MandateGuard</h3>
+          <div class="label">Thesis</div>
+          <p>Delegated agents need runtime governance: evaluate proposed actions against the user mandate before execution.</p>
+          <div class="label">Artifact</div>
+          <p>Local eval harness, trace schema, policy checks, CLI/demo path.</p>
+          <div class="label">Failure mode</div>
+          <p>Governance theater: policies that look structured but fail under real delegated workflows.</p>
+        </article>
+
+        <article class="card">
+          <span class="status">Active</span>
+          <h3>AI Workstation Optimizer</h3>
+          <div class="label">Thesis</div>
+          <p>Personal machines are becoming continuously optimizable operational environments.</p>
+          <div class="label">Artifact</div>
+          <p>Safe macOS diagnostic loop: benchmark, inspect, propose, approve, change, measure.</p>
+          <div class="label">Failure mode</div>
+          <p>Placebo optimization or unsafe system mutation without measurement and rollback.</p>
+        </article>
+
+        <article class="card">
+          <span class="status">Active</span>
+          <h3>Codex Session Mining</h3>
+          <div class="label">Thesis</div>
+          <p>Repeated prompts and recurring asks should be extracted into skills, scripts, or bounded subagents.</p>
+          <div class="label">Artifact</div>
+          <p>Session audit → repeated workflow inventory → reusable primitives.</p>
+          <div class="label">Failure mode</div>
+          <p>Over-abstracting one-off work into premature automation.</p>
+        </article>
+
+        <article class="card">
+          <span class="status">Active</span>
+          <h3>DUMP → Spawn → Project</h3>
+          <div class="label">Thesis</div>
+          <p>High-volume idea capture needs a promotion pipeline to avoid context sludge and project sprawl.</p>
+          <div class="label">Artifact</div>
+          <p>Raw intake, pressure test, spec seed, repo/project promotion.</p>
+          <div class="label">Failure mode</div>
+          <p>Turning every interesting thought into an unfinished project.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>Proposed</h2>
+      <div class="grid">
+        <article class="card">
+          <span class="status proposed">Proposed</span>
+          <h3>Agent Trace UX</h3>
+          <div class="label">Thesis</div>
+          <p>Agent work needs observability: traces, provenance, replay, rollback, and causal debugging.</p>
+          <div class="label">Artifact</div>
+          <p>Trace viewer for delegated tasks and repo-changing agent sessions.</p>
+          <div class="label">Failure mode</div>
+          <p>Pretty timelines that do not improve debugging, trust, or intervention quality.</p>
+        </article>
+
+        <article class="card">
+          <span class="status proposed">Proposed</span>
+          <h3>Fork / Patch / Promote</h3>
+          <div class="label">Thesis</div>
+          <p>Agent-generated changes should move through branch-like experimentation semantics before promotion.</p>
+          <div class="label">Artifact</div>
+          <p>Workflow spec for forked attempts, eval gates, rollback, and merge/promotion.</p>
+          <div class="label">Failure mode</div>
+          <p>Too much process overhead for small tasks; insufficient gates for high-risk tasks.</p>
+        </article>
+
+        <article class="card">
+          <span class="status proposed">Proposed</span>
+          <h3>Diff-to-Spec Sync</h3>
+          <div class="label">Thesis</div>
+          <p>When code changes, the operational memory should change too: specs, changelogs, README, and task ledger.</p>
+          <div class="label">Artifact</div>
+          <p>Git diff summarizer that proposes precise documentation updates.</p>
+          <div class="label">Failure mode</div>
+          <p>Documentation churn without preserving real architectural intent.</p>
+        </article>
+
+        <article class="card">
+          <span class="status proposed">Proposed</span>
+          <h3>Anti-Entropy Agent</h3>
+          <div class="label">Thesis</div>
+          <p>Agents increase code velocity and entropy; the same loop should detect duplication, dead paths, and abstraction bloat.</p>
+          <div class="label">Artifact</div>
+          <p>Repo review pass focused on deletion, simplification, and boundary repair.</p>
+          <div class="label">Failure mode</div>
+          <p>Mechanical cleanup that misses domain invariants.</p>
+        </article>
+
+        <article class="card">
+          <span class="status proposed">Proposed</span>
+          <h3>Fuzzy Execution Memory</h3>
+          <div class="label">Thesis</div>
+          <p>Past commands, prompts, and workflows are an execution memory layer, not inert history.</p>
+          <div class="label">Artifact</div>
+          <p>Fuzzy finder over shell history, Codex prompts, and project-local runbooks.</p>
+          <div class="label">Failure mode</div>
+          <p>Polluted history that retrieves stale or unsafe commands.</p>
+        </article>
+
+        <article class="card">
+          <span class="status proposed">Proposed</span>
+          <h3>Public Experiment Ledger</h3>
+          <div class="label">Thesis</div>
+          <p>A private experiment backlog can compile into a public, searchable proof-of-work surface.</p>
+          <div class="label">Artifact</div>
+          <p>This page; later, status pages per experiment with links to specs, repos, and notes.</p>
+          <div class="label">Failure mode</div>
+          <p>Publishing idea volume instead of artifact quality.</p>
+        </article>
+
+        <article class="card">
+          <span class="status proposed">Proposed</span>
+          <h3>Postmortem Curriculum</h3>
+          <div class="label">Thesis</div>
+          <p>Incident reports expose systems under stress: hidden coupling, failure modes, operational gaps, and coordination debt.</p>
+          <div class="label">Artifact</div>
+          <p>Reading track over technical postmortems with architecture notes and failure-pattern extraction.</p>
+          <div class="label">Failure mode</div>
+          <p>Consuming incidents as stories without extracting transferable system models.</p>
+        </article>
+
+        <article class="card">
+          <span class="status proposed">Proposed</span>
+          <h3>Multimodal Context Packets</h3>
+          <div class="label">Thesis</div>
+          <p>Screenshots and app context are high-bandwidth operational state carriers for multimodal agents.</p>
+          <div class="label">Artifact</div>
+          <p>Workflow for converting app state into agent-ready task context with minimal manual narration.</p>
+          <div class="label">Failure mode</div>
+          <p>Noisy context capture, permission sprawl, or false confidence from visual state alone.</p>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      Living backlog. Items graduate when they produce concrete artifacts: code, specs,
+      evals, traces, benchmarks, writeups, or reproducible workflows.
+    </footer>
+  </main>
+</body>
+</html>
