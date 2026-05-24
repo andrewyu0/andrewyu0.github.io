@@ -19,27 +19,43 @@
     }
 
     a { color: #00e; }
-
     h1 { margin-top: 0; }
 
     .viz {
       width: 100%;
-      height: 150px;
-      margin: 26px 0 30px;
+      height: 130px;
+      margin: 20px 0 24px;
       display: block;
       border: 0;
+      pointer-events: none;
+      contain: layout paint;
     }
 
     .viz-label {
       color: #777;
       font-size: 12px;
-      margin: 28px 0 6px;
+      margin: 22px 0 6px;
     }
 
     hr {
       border: 0;
       border-top: 1px solid #bbb;
       margin: 30px 0 18px;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 18px;
+      }
+
+      .viz {
+        height: 92px;
+        margin: 14px 0 18px;
+      }
+
+      .viz-label {
+        margin: 18px 0 4px;
+      }
     }
   </style>
 </head>
@@ -129,16 +145,39 @@
   <p>Andrew Yu 2030</p>
 
 <script>
+const activeCanvases = new WeakMap();
+
+const observer = new IntersectionObserver(entries => {
+  for (const entry of entries) {
+    activeCanvases.set(entry.target, entry.isIntersecting);
+  }
+}, { rootMargin: "120px" });
+
 function setupCanvas(id) {
   const canvas = document.getElementById(id);
   if (!canvas) return null;
-  const dpr = window.devicePixelRatio || 1;
+
+  observer.observe(canvas);
+  activeCanvases.set(canvas, false);
+
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
   const rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  const ctx = canvas.getContext("2d");
+
+  canvas.width = Math.floor(rect.width * dpr);
+  canvas.height = Math.floor(rect.height * dpr);
+
+  const ctx = canvas.getContext("2d", { alpha: true });
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
   return { canvas, ctx, w: rect.width, h: rect.height };
+}
+
+function loop(canvas, draw) {
+  function frame() {
+    if (activeCanvases.get(canvas)) draw();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 }
 
 /* 01 / pseudo-3D gradient descent surface */
@@ -194,10 +233,9 @@ function setupCanvas(id) {
     ctx.fill();
 
     t++;
-    requestAnimationFrame(draw);
   }
 
-  draw();
+  loop(s.canvas, draw);
 })();
 
 /* 02 / contour descent */
@@ -244,10 +282,9 @@ function setupCanvas(id) {
     ctx.fill();
 
     t++;
-    requestAnimationFrame(draw);
   }
 
-  draw();
+  loop(s.canvas, draw);
 })();
 
 /* 03 / agent trace graph */
@@ -294,53 +331,12 @@ function setupCanvas(id) {
     });
 
     t++;
-    requestAnimationFrame(draw);
   }
 
-  draw();
+  loop(s.canvas, draw);
 })();
 
-/* 04 / repo entropy field */
-(function () {
-  const s = setupCanvas("entropy"); if (!s) return;
-  const { ctx, w, h } = s;
-  let t = 0;
-
-  const pts = Array.from({ length: 54 }, (_, i) => ({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    tx: [0.25, 0.5, 0.75][i % 3] * w + (Math.random() - 0.5) * 38,
-    ty: [0.35, 0.58, 0.42][i % 3] * h + (Math.random() - 0.5) * 34,
-  }));
-
-  function draw() {
-    ctx.clearRect(0, 0, w, h);
-    const phase = (Math.sin(t * 0.018) + 1) / 2;
-
-    pts.forEach(p => {
-      const x = p.x * (1 - phase) + p.tx * phase;
-      const y = p.y * (1 - phase) + p.ty * phase;
-      ctx.beginPath();
-      ctx.arc(x, y, 2.4, 0, Math.PI * 2);
-      ctx.fillStyle = "black";
-      ctx.fill();
-    });
-
-    [[0.25,0.35], [0.5,0.58], [0.75,0.42]].forEach(c => {
-      ctx.beginPath();
-      ctx.arc(c[0] * w, c[1] * h, 34 + phase * 8, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(0,0,0,${0.08 + phase * 0.2})`;
-      ctx.stroke();
-    });
-
-    t++;
-    requestAnimationFrame(draw);
-  }
-
-  draw();
-})();
-
-/* 05 / fork rollback promote */
+/* 04 / fork rollback promote */
 (function () {
   const s = setupCanvas("forktree"); if (!s) return;
   const { ctx, w, h } = s;
@@ -399,17 +395,49 @@ function setupCanvas(id) {
     ctx.stroke();
 
     t++;
-    requestAnimationFrame(draw);
   }
 
-  draw();
+  loop(s.canvas, draw);
 })();
 
-let resizeTimer;
-window.addEventListener("resize", () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => location.reload(), 120);
-});
+/* 05 / repo entropy field */
+(function () {
+  const s = setupCanvas("entropy"); if (!s) return;
+  const { ctx, w, h } = s;
+  let t = 0;
+
+  const pts = Array.from({ length: 54 }, (_, i) => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    tx: [0.25, 0.5, 0.75][i % 3] * w + (Math.random() - 0.5) * 38,
+    ty: [0.35, 0.58, 0.42][i % 3] * h + (Math.random() - 0.5) * 34,
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    const phase = (Math.sin(t * 0.018) + 1) / 2;
+
+    pts.forEach(p => {
+      const x = p.x * (1 - phase) + p.tx * phase;
+      const y = p.y * (1 - phase) + p.ty * phase;
+      ctx.beginPath();
+      ctx.arc(x, y, 2.4, 0, Math.PI * 2);
+      ctx.fillStyle = "black";
+      ctx.fill();
+    });
+
+    [[0.25,0.35], [0.5,0.58], [0.75,0.42]].forEach(c => {
+      ctx.beginPath();
+      ctx.arc(c[0] * w, c[1] * h, 34 + phase * 8, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(0,0,0,${0.08 + phase * 0.2})`;
+      ctx.stroke();
+    });
+
+    t++;
+  }
+
+  loop(s.canvas, draw);
+})();
 </script>
 </body>
 </html>
