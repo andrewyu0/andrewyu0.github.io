@@ -1,146 +1,415 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Andrew Yu</title>
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
-    
-            body {
-                font-family: 'Roboto Mono', monospace;
-                font-size: 14px;
-                line-height: 1.4;
-                color: #333;
-            }
-        </style>
-    </head>
-    <body>
-<!--         <canvas id="myCanvas" style="border:0px solid #d3d3d3;"></canvas>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Andrew Yu</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
-        <script>
-        var canvas = document.getElementById("myCanvas");
-        var ctx = canvas.getContext("2d");
-        
-        // Set canvas size to window size
-        canvas.width = window.innerWidth;
-        canvas.height = 200;
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #333;
+      background: #fff;
+      max-width: 980px;
+    }
 
-        // Set line width
-        ctx.lineWidth = 1.2;
-        ctx.strokeStyle = 'black'; // was 'gray' before
+    a { color: #00e; }
 
+    h1 { margin-top: 0; }
 
-        
-        // Start at the top left (large loss)
-        var lineX = 0;
-        var lineYTrain = 0; // Training loss
-        var lineYVal = 0; // Validation loss
-        
-        // For controlling the decrease rate
-        var decreaseRateTrain = canvas.height / 1000 + Math.random() // Adding initial randomness
-        var decreaseRateVal = canvas.height / 1000 + Math.random(); // Adding initial randomness
-        
-        // Begin the paths
-        ctx.beginPath();
-        ctx.moveTo(lineX, lineYTrain);
-        ctx.strokeStyle = 'black';
-        ctx.stroke();
-        
-        ctx.beginPath();
-        ctx.moveTo(lineX, lineYVal);
-        ctx.strokeStyle = 'black';
-        ctx.stroke();
-        
-        // Update the line position every 100ms
-        setInterval(function () {
-            // Training loss
-            ctx.beginPath();
-            ctx.moveTo(lineX, lineYTrain);
-            lineX += canvas.width / 500; // Move right
-            lineYTrain += decreaseRateTrain; // Steeper ascent
-            decreaseRateTrain *= 0.99 + Math.random() * 0.01; // Randomly slow down the rate of increase
-            ctx.lineTo(lineX, lineYTrain);
-            ctx.strokeStyle = 'black';
-            ctx.stroke();
-        
-            // Validation loss
-            ctx.beginPath();
-            ctx.moveTo(lineX, lineYVal);
-            lineYVal += decreaseRateVal + (Math.random() - 0.5) * 4; // Steeper ascent with randomness
-            // Add a small upward trend to the validation loss after a certain point to simulate overfitting
-            if (lineX > canvas.width / 2) {
-                decreaseRateVal *= 0.98 + Math.random() * 0.01; // Randomly slow down the rate of increase
-            } else {
-                decreaseRateVal *= 0.99 + Math.random() * 0.01; // Randomly slow down the rate of increase
-            }
-            ctx.lineTo(lineX, lineYVal);
-            ctx.strokeStyle = 'black';
-            ctx.stroke();
-        }, 1);
-        </script> -->
-    <header>
-        <h1>Andrew Yu</h1>
-    </header>
-        <p>
-            Hey, I’m Andrew – product leader and engineer with a 10+ year career in tech, working in PM, engineering, design, and consulting roles. 
-        </p>
-        <p>
-            My specialization is in 
-            <a href="https://www.youtube.com/watch?v=nJNQex8ru6o&ab_channel=ProductSchool">growth and AI products</a>. Some of my previous work:
-        </p>
-        <ul>
-            <li>Built and redesigned the <a href="https://engineering.linkedin.com/blog/2020/helping-members-discover-communities-around-interests">AI-driven discovery</a> ecosystem @ LinkedIn.</li>
-            <li>Lead PM on the <a href="https://productsthatcount.com/biden-campaign-fmr-sr-pm-on-the-2021-inauguration-as-a-digital-first-experience/">2021 Inauguration</a> 
-            <li>Worked in <a href="https://www.cerego.com/blog/cerego-wins-ai-breakthrough-award-for-best-solution-in-education">edTech</a>, <a href="https://www.simplus.com/simplus-acquires-cirrusone/">enterprise B2B SaaS</a>, <a href="https://www.makethunder.com/">ad tech</a>, and <a href="https://build.org/">non-profits</a>.</li>
-            <li>Coach/instructor @ <a href="https://executive.berkeley.edu/programs/product-management-studio">PM Studio</a>, <a href="https://productschool.com/product-leaders/andrew-yu">Product School</a>.</li>
-            <li>Misc: lifelong classically trained <a href="https://soundcloud.com/andrewchando">musician</a> and <a href="https://andrewyu.art/">artist</a>.</li>
-        </ul>
-        <p> ## CODE</p>
-        <ul>
-            <li>Check out my <a href="https://github.com/andrewyu0">github</a> here</li>
-        </ul>
-        <p>## SPEAKING - some of my talks and podcasts</p>
+    .viz {
+      width: 100%;
+      height: 150px;
+      margin: 26px 0 30px;
+      display: block;
+      border: 0;
+    }
 
-        <ul>
-            <li><a href="https://www.youtube.com/watch?v=nJNQex8ru6o&ab_channel=ProductSchool">Building AI Products to Power Growth</a></li>
-            <li><a href="https://www.youtube.com/watch?v=63zziyth-G4&ab_channel=ProductSchool">Inspire Action With Great Product Strategy</a></li>
-            <li><a href="https://www.youtube.com/watch?v=JI9qLSXEe94&ab_channel=ProductGym%27sPMProgram">What Makes a Great Growth Product Manager?</a></li>
-            <li><a href="https://www.youtube.com/watch?v=rQuPmAJNgds&ab_channel=ProductSchool">Strategies for Dealing with Uncertainty as a PM</a></li>
-            <li><a href="https://www.youtube.com/watch?v=8co5HNKPU_s&ab_channel=ProductGym%27sPMProgram">Collaboration Is a Product Manager Superpower</a></li>
-            <li><a href="https://www.youtube.com/watch?v=6w-bVBcknnQ&ab_channel=ProductGym%27sPMProgram">Systems Thinking in Product Management</a></li>
-            <li><a href="https://info.amplitude.com/product_led_in_practice_feb17_video">Amplitude Webinars: Product-Led in Practice</a></li>
-        </ul>
-        
-        <p>## WRITING - some of my writings</p>
-            <ul>
-                <li><a href="https://www.linkedin.com/newsletters/actionable-ideas-6608103624440721408/">Actionable Ideas</a></li>
-                <li><a href="https://www.linkedin.com/pulse/age-infinite-leverage-andrew-c-yu?trk=news-guest_share-article">The Age of Infinite Leverage</a></li>
-                <li><a href="https://www.linkedin.com/pulse/power-market-networks-andrew-yu?trk=news-guest_share-article">The Power of Market Networks</a></li>
-                <li><a href="https://www.linkedin.com/pulse/servant-networking-serve-dont-network-andrew-c-yu-1c?trk=news-guest">Servant Networking: Serve, Don't Network</a></li>
-                <li><a href="https://www.linkedin.com/pulse/product-metrics-illustrated-primer-choosing-refining-tracking-yu?trk=news-guest_share-article">An Illustrated Primer on Product Success Metrics</a></li>
-                <li><a href="https://www.linkedin.com/pulse/develop-probabilistic-mind-reduce-uncertainty-andrew-c-yu?trk=news-guest_share-article">Develop a Probabilistic Mind to Reduce Uncertainty</a></li>
-                <li><a href="https://www.linkedin.com/pulse/what-government-can-learn-from-product-management-andrew-c-yu?trk=news-guest_share-article">What Government can Learn from Product Management</a></li>
-                <li><a href="https://www.linkedin.com/pulse/networked-thinking-build-your-tree-knowledge-andrew-c-yu?trk=news-guest">Networked Thinking: Build Your Tree of Knowledge</a></li>
-            </ul>
-        
-        <p>## ART</p>
-        <ul>
-            <li>Separate art portfolio at <a href="https://www.andrewyu.art">andrewyu.art</a></li>
-        </ul>
-        <!-- <p>## misc: how i made this website (20240126)</p> -->
-        <!-- <blockquote class="twitter-tweet"><p lang="qme" dir="ltr"> <a href="https://t.co/20eLn9qYJz">pic.twitter.com/20eLn9qYJz</a></p>&mdash; Andrew Yu (@andrewcyu) <a href="https://twitter.com/andrewcyu/status/1750979829711745036?ref_src=twsrc%5Etfw">January 26, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
-    <hr>
-    <p>Reach out if you wanna chat!</p>
-    <p>
-        <a href="https://twitter.com/andrewcyu">twitter</a>,
-        <a href="https://github.com/andrewyu0">github</a>,
-        <a href="https://www.linkedin.com/in/andrewchandoyu/">linkedin</a>,
-        yu.drew [at] gmail 
-    </p>
-    <!-- ethos inspo by karpathy.ai + motherfuckingwebsite.com -->
-    <!-- 20251219 i need to update my website 2026 -->
-    <p>Andrew Yu 2030</p>
-    
+    .viz-label {
+      color: #777;
+      font-size: 12px;
+      margin: 28px 0 6px;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid #bbb;
+      margin: 30px 0 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="gradient3d" class="viz"></canvas>
+
+  <header>
+    <h1>Andrew Yu</h1>
+  </header>
+
+  <p>
+    Hey, I’m Andrew – product leader and engineer with a 10+ year career in tech,
+    working in PM, engineering, design, and consulting roles.
+  </p>
+
+  <p>
+    My specialization is in
+    <a href="https://www.youtube.com/watch?v=nJNQex8ru6o&ab_channel=ProductSchool">growth and AI products</a>.
+    Some of my previous work:
+  </p>
+
+  <ul>
+    <li>Built and redesigned the <a href="https://engineering.linkedin.com/blog/2020/helping-members-discover-communities-around-interests">AI-driven discovery</a> ecosystem @ LinkedIn.</li>
+    <li>Lead PM on the <a href="https://productsthatcount.com/biden-campaign-fmr-sr-pm-on-the-2021-inauguration-as-a-digital-first-experience/">2021 Inauguration</a>.</li>
+    <li>Worked in <a href="https://www.cerego.com/blog/cerego-wins-ai-breakthrough-award-for-best-solution-in-education">edTech</a>, <a href="https://www.simplus.com/simplus-acquires-cirrusone/">enterprise B2B SaaS</a>, <a href="https://www.makethunder.com/">ad tech</a>, and <a href="https://build.org/">non-profits</a>.</li>
+    <li>Coach/instructor @ <a href="https://executive.berkeley.edu/programs/product-management-studio">PM Studio</a>, <a href="https://productschool.com/product-leaders/andrew-yu">Product School</a>.</li>
+    <li>Misc: lifelong classically trained <a href="https://soundcloud.com/andrewchando">musician</a> and <a href="https://andrewyu.art/">artist</a>.</li>
+  </ul>
+
+  <div class="viz-label">optimization / search</div>
+  <canvas id="contour" class="viz"></canvas>
+
+  <p>## CODE</p>
+  <ul>
+    <li>Check out my <a href="https://github.com/andrewyu0">github</a> here</li>
+  </ul>
+
+  <div class="viz-label">agent loop / trace</div>
+  <canvas id="tracegraph" class="viz"></canvas>
+
+  <p>## SPEAKING - some of my talks and podcasts</p>
+  <ul>
+    <li><a href="https://www.youtube.com/watch?v=nJNQex8ru6o&ab_channel=ProductSchool">Building AI Products to Power Growth</a></li>
+    <li><a href="https://www.youtube.com/watch?v=63zziyth-G4&ab_channel=ProductSchool">Inspire Action With Great Product Strategy</a></li>
+    <li><a href="https://www.youtube.com/watch?v=JI9qLSXEe94&ab_channel=ProductGym%27sPMProgram">What Makes a Great Growth Product Manager?</a></li>
+    <li><a href="https://www.youtube.com/watch?v=rQuPmAJNgds&ab_channel=ProductSchool">Strategies for Dealing with Uncertainty as a PM</a></li>
+    <li><a href="https://www.youtube.com/watch?v=8co5HNKPU_s&ab_channel=ProductGym%27sPMProgram">Collaboration Is a Product Manager Superpower</a></li>
+    <li><a href="https://www.youtube.com/watch?v=6w-bVBcknnQ&ab_channel=ProductGym%27sPMProgram">Systems Thinking in Product Management</a></li>
+    <li><a href="https://info.amplitude.com/product_led_in_practice_feb17_video">Amplitude Webinars: Product-Led in Practice</a></li>
+  </ul>
+
+  <div class="viz-label">fork / evaluate / promote</div>
+  <canvas id="forktree" class="viz"></canvas>
+
+  <p>## WRITING - some of my writings</p>
+  <ul>
+    <li><a href="https://www.linkedin.com/newsletters/actionable-ideas-6608103624440721408/">Actionable Ideas</a></li>
+    <li><a href="https://www.linkedin.com/pulse/age-infinite-leverage-andrew-c-yu?trk=news-guest_share-article">The Age of Infinite Leverage</a></li>
+    <li><a href="https://www.linkedin.com/pulse/power-market-networks-andrew-yu?trk=news-guest_share-article">The Power of Market Networks</a></li>
+    <li><a href="https://www.linkedin.com/pulse/servant-networking-serve-dont-network-andrew-c-yu-1c?trk=news-guest">Servant Networking: Serve, Don't Network</a></li>
+    <li><a href="https://www.linkedin.com/pulse/product-metrics-illustrated-primer-choosing-refining-tracking-yu?trk=news-guest_share-article">An Illustrated Primer on Product Success Metrics</a></li>
+    <li><a href="https://www.linkedin.com/pulse/develop-probabilistic-mind-reduce-uncertainty-andrew-c-yu?trk=news-guest_share-article">Develop a Probabilistic Mind to Reduce Uncertainty</a></li>
+    <li><a href="https://www.linkedin.com/pulse/what-government-can-learn-from-product-management-andrew-c-yu?trk=news-guest_share-article">What Government can Learn from Product Management</a></li>
+    <li><a href="https://www.linkedin.com/pulse/networked-thinking-build-your-tree-knowledge-andrew-c-yu?trk=news-guest">Networked Thinking: Build Your Tree of Knowledge</a></li>
+  </ul>
+
+  <div class="viz-label">entropy / structure</div>
+  <canvas id="entropy" class="viz"></canvas>
+
+  <p>## ART</p>
+  <ul>
+    <li>Separate art portfolio at <a href="https://www.andrewyu.art">andrewyu.art</a></li>
+  </ul>
+
+  <hr>
+
+  <p>Reach out if you wanna chat!</p>
+  <p>
+    <a href="https://twitter.com/andrewcyu">twitter</a>,
+    <a href="https://github.com/andrewyu0">github</a>,
+    <a href="https://www.linkedin.com/in/andrewchandoyu/">linkedin</a>,
+    yu.drew [at] gmail
+  </p>
+
+  <!-- ethos inspo by karpathy.ai + motherfuckingwebsite.com -->
+  <p>Andrew Yu 2030</p>
+
+<script>
+function setupCanvas(id) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return null;
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  const ctx = canvas.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { canvas, ctx, w: rect.width, h: rect.height };
+}
+
+/* 01 / pseudo-3D gradient descent surface */
+(function () {
+  const s = setupCanvas("gradient3d"); if (!s) return;
+  const { ctx, w, h } = s;
+  let t = 0;
+
+  function z(x, y) {
+    return Math.sin(x * 0.055 + t * 0.018) * 14 +
+      Math.cos(y * 0.07) * 10 +
+      0.0028 * ((x - w * 0.55) ** 2 + (y - h * 0.45) ** 2);
+  }
+
+  function project(x, y, zz) {
+    return {
+      x: x + (y - h / 2) * 0.45,
+      y: h * 0.64 + (y - h / 2) * 0.22 - zz
+    };
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.lineWidth = 0.8;
+    ctx.strokeStyle = "rgba(0,0,0,0.35)";
+
+    for (let y = 8; y < h; y += 14) {
+      ctx.beginPath();
+      for (let x = -70; x < w; x += 8) {
+        const p = project(x, y, z(x, y));
+        x === -70 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+      }
+      ctx.stroke();
+    }
+
+    for (let x = -40; x < w; x += 22) {
+      ctx.beginPath();
+      for (let y = 6; y < h; y += 8) {
+        const p = project(x, y, z(x, y));
+        y === 6 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+      }
+      ctx.stroke();
+    }
+
+    const u = t * 0.012;
+    const px = w * 0.78 - u * 42;
+    const py = h * 0.18 + u * 19;
+    const p = project(px, py, z(px, py));
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = "black";
+    ctx.fill();
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+
+/* 02 / contour descent */
+(function () {
+  const s = setupCanvas("contour"); if (!s) return;
+  const { ctx, w, h } = s;
+  let t = 0;
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    const cx = w * 0.55;
+    const cy = h * 0.52;
+
+    ctx.lineWidth = 1;
+    for (let r = 18; r < 145; r += 18) {
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, r * 1.55, r * 0.62, -0.35, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(0,0,0,${0.12 + r / 900})`;
+      ctx.stroke();
+    }
+
+    ctx.beginPath();
+    for (let i = 0; i < 120; i++) {
+      const k = i / 119;
+      const angle = 5.2 - k * 4.6;
+      const radius = 128 * Math.exp(-2.25 * k);
+      const x = cx + Math.cos(angle) * radius * 1.55;
+      const y = cy + Math.sin(angle) * radius * 0.62;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 1.35;
+    ctx.stroke();
+
+    const k = (Math.sin(t * 0.018) + 1) / 2;
+    const angle = 5.2 - k * 4.6;
+    const radius = 128 * Math.exp(-2.25 * k);
+    const x = cx + Math.cos(angle) * radius * 1.55;
+    const y = cy + Math.sin(angle) * radius * 0.62;
+
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = "black";
+    ctx.fill();
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+
+/* 03 / agent trace graph */
+(function () {
+  const s = setupCanvas("tracegraph"); if (!s) return;
+  const { ctx, w, h } = s;
+  let t = 0;
+
+  const nodes = [
+    ["observe", 0.12, 0.54],
+    ["plan",    0.30, 0.32],
+    ["act",     0.50, 0.54],
+    ["verify",  0.70, 0.32],
+    ["commit",  0.88, 0.54],
+  ];
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    ctx.lineWidth = 1;
+    for (let i = 0; i < nodes.length - 1; i++) {
+      const a = nodes[i], b = nodes[i + 1];
+      ctx.beginPath();
+      ctx.moveTo(a[1] * w, a[2] * h);
+      ctx.lineTo(b[1] * w, b[2] * h);
+      ctx.strokeStyle = "rgba(0,0,0,0.25)";
+      ctx.stroke();
+    }
+
+    const active = Math.floor((t / 38) % nodes.length);
+
+    nodes.forEach((n, i) => {
+      const x = n[1] * w, y = n[2] * h;
+      ctx.beginPath();
+      ctx.arc(x, y, i === active ? 8 : 5, 0, Math.PI * 2);
+      ctx.fillStyle = i === active ? "black" : "white";
+      ctx.fill();
+      ctx.strokeStyle = "black";
+      ctx.stroke();
+
+      ctx.fillStyle = i === active ? "black" : "#777";
+      ctx.font = "12px Roboto Mono, monospace";
+      ctx.fillText(n[0], x - 28, y + 26);
+    });
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+
+/* 04 / repo entropy field */
+(function () {
+  const s = setupCanvas("entropy"); if (!s) return;
+  const { ctx, w, h } = s;
+  let t = 0;
+
+  const pts = Array.from({ length: 54 }, (_, i) => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    tx: [0.25, 0.5, 0.75][i % 3] * w + (Math.random() - 0.5) * 38,
+    ty: [0.35, 0.58, 0.42][i % 3] * h + (Math.random() - 0.5) * 34,
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    const phase = (Math.sin(t * 0.018) + 1) / 2;
+
+    pts.forEach(p => {
+      const x = p.x * (1 - phase) + p.tx * phase;
+      const y = p.y * (1 - phase) + p.ty * phase;
+      ctx.beginPath();
+      ctx.arc(x, y, 2.4, 0, Math.PI * 2);
+      ctx.fillStyle = "black";
+      ctx.fill();
+    });
+
+    [[0.25,0.35], [0.5,0.58], [0.75,0.42]].forEach(c => {
+      ctx.beginPath();
+      ctx.arc(c[0] * w, c[1] * h, 34 + phase * 8, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(0,0,0,${0.08 + phase * 0.2})`;
+      ctx.stroke();
+    });
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+
+/* 05 / fork rollback promote */
+(function () {
+  const s = setupCanvas("forktree"); if (!s) return;
+  const { ctx, w, h } = s;
+  let t = 0;
+
+  function drawBranch(x1, y1, x2, y2, promoted) {
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = promoted ? "black" : "rgba(0,0,0,0.22)";
+    ctx.lineWidth = promoted ? 1.8 : 1;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(x2, y2, promoted ? 5 : 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = promoted ? "black" : "white";
+    ctx.fill();
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    const root = [w * 0.12, h * 0.55];
+    const branches = [
+      [w * 0.32, h * 0.28],
+      [w * 0.32, h * 0.55],
+      [w * 0.32, h * 0.82],
+    ];
+    const finals = [
+      [w * 0.58, h * 0.18],
+      [w * 0.58, h * 0.38],
+      [w * 0.58, h * 0.55],
+      [w * 0.58, h * 0.72],
+      [w * 0.58, h * 0.88],
+    ];
+
+    ctx.beginPath();
+    ctx.arc(root[0], root[1], 5, 0, Math.PI * 2);
+    ctx.fillStyle = "black";
+    ctx.fill();
+
+    branches.forEach((b, i) => drawBranch(root[0], root[1], b[0], b[1], i === 1));
+
+    drawBranch(branches[0][0], branches[0][1], finals[0][0], finals[0][1], false);
+    drawBranch(branches[0][0], branches[0][1], finals[1][0], finals[1][1], false);
+    drawBranch(branches[1][0], branches[1][1], finals[2][0], finals[2][1], true);
+    drawBranch(branches[2][0], branches[2][1], finals[3][0], finals[3][1], false);
+    drawBranch(branches[2][0], branches[2][1], finals[4][0], finals[4][1], false);
+
+    const pulse = (Math.sin(t * 0.06) + 1) / 2;
+    ctx.beginPath();
+    ctx.arc(finals[2][0], finals[2][1], 11 + pulse * 8, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(0,0,0,${0.3 - pulse * 0.22})`;
+    ctx.stroke();
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+
+let resizeTimer;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => location.reload(), 120);
+});
+</script>
 </body>
 </html>
