@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>schoolcraft :)</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      color: #111;
+      background: #fff;
+      font-family: system-ui, sans-serif;
+    }
+
+    main {
+      width: min(100%, 72rem);
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 2rem;
+      font-size: 1.25rem;
+      font-weight: 400;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      opacity: 0;
+      transition: opacity 5s ease;
+    }
+
+    img.loaded {
+      opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      img {
+        opacity: 1;
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>schoolcraft :)</h1>
+    <img id="schoolcraft-image" alt="">
+  </main>
+  <script>
+    const images = [
+      "pics-sc/Screenshot 2026-08-05 at 10.51.17 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.51.32 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.51.42 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.52.07 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.52.15 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.52.25 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.52.40 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.52.46 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.52.54 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.53.02 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.53.20 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.53.45 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.53.55 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.54.26 AM.png",
+      "pics-sc/Screenshot 2026-08-05 at 10.54.49 AM.png"
+    ];
+    const image = document.getElementById("schoolcraft-image");
+    image.addEventListener("load", () => image.classList.add("loaded"));
+    image.src = images[Math.floor(Math.random() * images.length)];
+  </script>
+</body>
+</html>
