@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>An evening with dot — Andrew Yu</title>
+  <meta name="description" content="First-night observations on steering dot through fragmented messages, voice, retrieval, and ongoing work, with three tests to run next.">
+  <meta name="author" content="Andrew Yu">
+  <link rel="canonical" href="https://andrewyu.co/blog/first-evening-with-dot/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Andrew Yu">
+  <meta property="og:title" content="An evening with dot">
+  <meta property="og:description" content="First-night observations on steering dot through fragmented messages, voice, retrieval, and ongoing work, with three tests to run next.">
+  <meta property="og:url" content="https://andrewyu.co/blog/first-evening-with-dot/">
+  <meta property="article:published_time" content="2026-10-01">
+  <meta property="article:author" content="Andrew Yu">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "An evening with dot",
+    "description": "First-night observations on steering dot through fragmented messages, voice, retrieval, and ongoing work, with three tests to run next.",
+    "datePublished": "2026-10-01",
+    "author": {
+      "@type": "Person",
+      "name": "Andrew Yu",
+      "url": "https://andrewyu.co/"
+    },
+    "mainEntityOfPage": "https://andrewyu.co/blog/first-evening-with-dot/",
+    "url": "https://andrewyu.co/blog/first-evening-with-dot/"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blog/styles.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <a href="/">Andrew Yu</a>
+    <nav aria-label="Primary navigation">
+      <a href="/blog/">Blog</a>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <header class="article-header">
+	<p class="article-meta"><time datetime="2026-10-01">October 1, 2026</time> · Andrew Yu</p>
+	<h1>An evening with dot</h1>
+	<p class="article-summary">First-night observations on steering dot through fragmented messages, voice, retrieval, and ongoing work, with three tests to run next.</p>
+      </header>
+
+      <div class="article-body">
+	<p>On my first full day back in San Francisco, I had dinner in a busy hotel lobby and spent the evening exploring dot on my Mac.</p>
+
+	<p>I laughed. I got up for a short walk. At one point I said, “That's effing crazy.”</p>
+
+	<p>The interesting part was how easily I could keep adding thoughts while something was already happening.</p>
+
+	<p>OpenAI <a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes">announced dots on September 29</a>. The <a href="https://help.openai.com/en/articles/20001530-getting-started-with-your-dot">official guide</a> describes an agent that can keep working between conversations, use connected apps, and bring results back for review.</p>
+
+	<p>This is a field report from one evening. I was testing the interaction, following my curiosity, and occasionally trying to break the flow.</p>
+
+	<h2>Sending before the thought is finished</h2>
+
+	<p>I started sending tiny messages.</p>
+
+	<p>“also”</p>
+
+	<p>“and reply”</p>
+
+	<p>Sometimes a correction. Sometimes another question before the previous work had finished.</p>
+
+	<p>These were submitted messages. I wasn't testing whether dot could see unsent keystrokes. I wanted to know whether I could express a stream of consciousness without first packaging it into one complete prompt.</p>
+
+	<p>It incorporated the additions and corrections into its responses. I could keep shaping the request while work was underway.</p>
+
+	<p>While dot researched public reactions, I could scroll back, read earlier replies, and add questions. Reading, asking, and waiting overlapped. I didn't have to organize the whole experience around the next answer arriving.</p>
+
+	<p>I kept coming back to the word “blurring.” The boundary between giving input and watching work happen felt less rigid.</p>
+
+	<p>The observable behavior is straightforward: I sent more information, and later responses reflected it. That doesn't tell me whether some hidden process was continuously thinking. It tells me the interaction accommodated an unfinished thought.</p>
+
+	<h2>Following the conversation around</h2>
+
+	<p>I also tested replies under individual messages. I replied in a branch, returned to the main conversation, then returned to the branch. The reply targets stayed intact.</p>
+
+	<p>That sounds small. It matters when several questions are alive at once. A correction needs to belong to the right question, especially if other work is still running.</p>
+
+	<p>Voice exposed a different set of boundaries. I tried interrupting and asked dot to speak faster, including at twice the speed. I didn't measure whether it reached an exact multiplier.</p>
+
+	<p>When I switched apps on my iPad, a call dropped. That was one observation, with no diagnosis. I also asked for transcripts because they hadn't appeared automatically. Dot pasted the text it had received; the final portion was cut off when the call ended.</p>
+
+	<p>Those details matter to me. If voice is part of an ongoing workspace, I want to know which words made it through and which didn't.</p>
+
+	<p>I liked the interface, too: the fade and the muted blue gradient. They contributed to the feeling of the evening. I wouldn't treat that feeling as evidence of capability, but it belongs in a report about using the product.</p>
+
+	<h2>Recovering context, with gaps</h2>
+
+	<p>Another test was looking backward.</p>
+
+	<p>Dot recovered a screenshot from a 2023 plugin hackathon. It also produced a partial index of conversations from July through October. Some titles and links were missing.</p>
+
+	<p>Recovering something specific was useful. The gaps were useful evidence, too. I couldn't treat that index as a complete record of my history, or assume that a relevant detail would always be available later.</p>
+
+	<p>We also looked at two projects, Shared API and MandateGuard. The inspection was read-only. Shared API had immutable request construction; MandateGuard had a policy scaffold. No tests were run.</p>
+
+	<p>That gave us something concrete to discuss without turning a code read into a claim that either project worked end to end.</p>
+
+	<p>In <a href="https://andrewyu.co/blog/artifact-a-node/">Artifact a Node</a>, I wrote about an idea surviving pressure testing and becoming available for future retrieval. This evening produced a candidate: useful agent interaction should let me revise my intent while preserving a clear account of what the system is doing.</p>
+
+	<h2>Separating the layers</h2>
+
+	<p>There are at least three things to evaluate here: the model, the agent runtime, and the interface.</p>
+
+	<p>The model produces judgments and responses. The runtime coordinates work, state, tools, and permissions. The interface determines how I can inspect and influence that work.</p>
+
+	<p>My strongest observation was about the combined interaction. A single evening can't isolate how much came from each layer. It also can't establish a leap in Astra's intelligence or long-term reliability.</p>
+
+	<p>Asynchronous agent work already exists. What caught my attention was experiencing it through a conversation I could keep contributing to.</p>
+
+	<h2>Three tests I want to run next</h2>
+
+	<p>The next artifact could be a small, steerable coding-task agent. We discussed it; we didn't build it.</p>
+
+	<p>I want to test three things:</p>
+
+	<ol>
+	  <li><p><strong>A correction that arrives late.</strong> Start a task, change a requirement while it is running, and inspect the result. Does the agent identify which work became stale? Does the final artifact reflect the correction, or merely acknowledge it in chat?</p></li>
+	  <li><p><strong>Stop and resume.</strong> Interrupt a multi-step task, then resume it. Check the recorded state, completed steps, and remaining work. Can I tell what happened while I was away, and does resuming avoid duplicate actions?</p></li>
+	  <li><p><strong>Approval of an exact diff.</strong> Ask for a code change, inspect the diff, and approve only that version. If the proposed change grows or changes afterward, require another review. A smooth conversation still needs a precise boundary around execution.</p></li>
+	</ol>
+
+	<p>My workflow remains chat, specification, Git, Codex, tests and review, then commit and push. This article is one small instance of that process.</p>
+
+	<p>I left the evening excited about a specific possibility. I could think in fragments, redirect work, and return to earlier questions without rebuilding the entire request each time.</p>
+
+	<p>Now I want to see whether that feeling survives a task where a missed correction actually changes the result.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="/blog/">← All posts</a></p>
+  </footer>
+</body>
+</html>
