@@ -55,6 +55,13 @@
 	<p class="article-summary">First-night observations on steering dot through fragmented messages, voice, retrieval, and ongoing work, with three tests to run next.</p>
       </header>
 
+      <figure class="incoming-fragments">
+	<figcaption>incoming fragments / steering in flight</figcaption>
+	<canvas id="incoming-fragments" role="img" aria-label="Incoming fragments join five moving work threads; one correction redirects the middle thread while the other four continue.">
+	  Five work threads continue as incoming fragments join them and one correction redirects the middle thread.
+	</canvas>
+      </figure>
+
       <div class="article-body">
 	<p>On my first full day back in San Francisco, I had dinner in a busy hotel lobby and spent the evening exploring dot on my Mac.</p>
 
@@ -148,5 +155,140 @@
   <footer class="site-footer">
     <p><a href="/blog/">← All posts</a></p>
   </footer>
+
+<script>
+(function () {
+  const canvas = document.getElementById("incoming-fragments");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d", { alpha: true });
+  const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const accent = "#0000ee";
+  const fragments = [
+    ["also", 0.12, 0, 0.02, 0.14, true],
+    ["wait", 0.28, 2, 0.06, 0.2, false],
+    ["one more", 0.76, 4, 0.1, 0.24, true],
+    ["and reply", 0.66, 3, 0.14, 0.29, true],
+    ["context", 0.34, 1, 0.18, 0.32, true],
+    ["question", 0.82, 0, 0.22, 0.36, false],
+    ["correction", 0.48, 2, 0.26, 0.42, true],
+    ["actually", 0.18, 4, 0.32, 0.46, false],
+    ["detail", 0.58, 1, 0.37, 0.51, false],
+    ["clarify", 0.73, 3, 0.42, 0.56, false],
+    ["change", 0.25, 0, 0.47, 0.61, false],
+    ["what if", 0.52, 4, 0.52, 0.66, false],
+    ["keep going", 0.7, 1, 0.57, 0.71, false],
+    ["another", 0.38, 3, 0.62, 0.76, false],
+    ["revise", 0.84, 2, 0.67, 0.81, false]
+  ];
+  let width, height, frameId, startedAt;
+  let visible = false;
+  let running = false;
+
+  function line(x1, y1, x2, y2, color, dashed) {
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.setLineDash(dashed ? [4, 5] : []);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  function dot(x, y, color) {
+    ctx.beginPath();
+    ctx.arc(x, y, 3.2, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  function fragment(label, x, targetY, start, end, color, time, still) {
+    if (!still && (time < start || time > end + 0.1)) return;
+    const progress = still ? 1 : Math.max(0, Math.min(1, (time - start) / (end - start)));
+    const y = 14 + (targetY - 14) * progress;
+    ctx.fillStyle = color;
+    ctx.fillRect(x - 2.5, y - 2.5, 5, 5);
+    ctx.font = "11px Roboto Mono, monospace";
+    ctx.fillText(label, x + 8, y - 7);
+  }
+
+  function draw(now, still) {
+    const time = still ? 0.7 : (now % 7000) / 7000;
+    const redirect = still ? 1 : Math.max(0, Math.min(1, (time - 0.42) / 0.14));
+    ctx.clearRect(0, 0, width, height);
+
+    const left = 10;
+    const right = width - 10;
+    const threads = [0.17, 0.33, 0.5, 0.67, 0.83].map(value => height * value);
+    const middle = threads[2];
+    const junction = width * 0.48;
+    const redirectY = height * 0.41;
+
+    threads.forEach((y, index) => {
+      if (index === 2) return;
+      line(left, y, right, y, "rgba(0,0,0,0.27)");
+      const x = left + (right - left) * ((time * (1.25 + index * 0.08) + index * 0.19) % 1);
+      dot(x, y, "#2f2f2f");
+    });
+    line(left, middle, junction, middle, "rgba(0,0,0,0.32)");
+    line(junction, middle, right, middle, `rgba(0,0,0,${0.27 - redirect * 0.17})`, redirect > 0.1);
+    line(junction, middle, junction + (right - junction) * redirect, middle + (redirectY - middle) * redirect, accent);
+
+    const middleX = left + (right - left) * ((time * 1.4 + 0.25) % 1);
+    const middleY = redirect > 0.2 && middleX > junction
+      ? middle + (redirectY - middle) * ((middleX - junction) / (right - junction))
+      : middle;
+
+    dot(middleX, middleY, redirect > 0.2 ? accent : "#2f2f2f");
+
+    fragments.forEach(([label, x, thread, start, end, showStill]) => {
+      if (still && !showStill) return;
+      fragment(label, width * x, threads[thread], start, end, label === "correction" ? accent : "#2f2f2f", time, still);
+    });
+  }
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    width = rect.width;
+    height = rect.height;
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw(0, true);
+  }
+
+  function frame(now) {
+    if (!running) return;
+    draw(now - startedAt, false);
+    frameId = requestAnimationFrame(frame);
+  }
+
+  function update() {
+    cancelAnimationFrame(frameId);
+    running = visible && !motion.matches;
+    draw(0, true);
+    if (!running) return;
+    startedAt = performance.now();
+    frameId = requestAnimationFrame(frame);
+  }
+
+  resize();
+  window.addEventListener("resize", resize, { passive: true });
+
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting;
+      update();
+    }, { rootMargin: "120px" }).observe(canvas);
+  } else {
+    visible = true;
+    update();
+  }
+
+  motion.addEventListener("change", update);
+})();
+</script>
 </body>
 </html>

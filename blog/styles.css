@@ -109,6 +109,24 @@ h1 {
   margin: 0 0 14px;
 }
 
+.incoming-fragments {
+  margin: 0 0 42px;
+}
+
+.incoming-fragments figcaption {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.incoming-fragments canvas {
+  display: block;
+  width: 100%;
+  height: 146px;
+  pointer-events: none;
+  contain: layout paint;
+}
+
 .article-body p {
   margin: 0 0 24px;
 }
@@ -173,5 +191,13 @@ code {
 
   .sequence {
     padding: 18px;
+  }
+
+  .incoming-fragments {
+    margin-bottom: 36px;
+  }
+
+  .incoming-fragments canvas {
+    height: 116px;
   }
 }
